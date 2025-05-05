@@ -14,9 +14,6 @@ CONFIRM_TEXT = "✅ Дякуємо! Вашу новину отримано."
 # Стани
 WAITING_FOR_NEWS = {}
 
-# Отримуємо порт, якщо він заданий
-PORT = int(os.environ.get("PORT", 10000))  # Якщо не задано, використовуємо порт 10000
-
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [[InlineKeyboardButton("📰 Надіслати новину", callback_data="send_news")]]
     reply_markup = InlineKeyboardMarkup(keyboard)
@@ -34,7 +31,6 @@ async def message_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
 
     if WAITING_FOR_NEWS.get(user_id):
-        # Визначаємо, що надіслав користувач
         if update.message.text:
             await context.bot.send_message(
                 chat_id=TARGET_CHAT_ID,
@@ -55,7 +51,6 @@ async def message_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         else:
             await update.message.reply_text("⚠️ Надішліть текст, фото або відео.")
 
-        # Підтвердження
         await update.message.reply_text(CONFIRM_TEXT)
         WAITING_FOR_NEWS.pop(user_id, None)
     else:
@@ -69,4 +64,4 @@ if __name__ == '__main__':
     app.add_handler(MessageHandler(filters.ALL, message_handler))
 
     print("Бот запущено.")
-    app.run_polling(port=PORT)  # Вказуємо порт для запуску
+    app.run_polling()  # <-- Без портів
