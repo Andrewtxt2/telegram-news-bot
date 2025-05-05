@@ -5,8 +5,10 @@ from telegram.ext import (
     ApplicationBuilder, CommandHandler, CallbackQueryHandler, MessageHandler, ContextTypes, filters
 )
 
-BOT_TOKEN = 'тут_твій_токен'
-TARGET_CHAT_ID = -1001234567890  # ID каналу або адміна
+import os
+
+BOT_TOKEN = os.environ['BOT_TOKEN']
+TARGET_CHAT_ID = int(os.environ['TARGET_CHAT_ID'])
 CONFIRM_TEXT = "✅ Дякуємо! Вашу новину отримано."
 
 # Стани
