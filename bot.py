@@ -14,6 +14,9 @@ CONFIRM_TEXT = "✅ Дякуємо! Вашу новину отримано."
 # Стани
 WAITING_FOR_NEWS = {}
 
+# Отримуємо порт, якщо він заданий
+PORT = int(os.environ.get("PORT", 10000))  # Якщо не задано, використовуємо порт 10000
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [[InlineKeyboardButton("📰 Надіслати новину", callback_data="send_news")]]
     reply_markup = InlineKeyboardMarkup(keyboard)
@@ -66,4 +69,4 @@ if __name__ == '__main__':
     app.add_handler(MessageHandler(filters.ALL, message_handler))
 
     print("Бот запущено.")
-    app.run_polling()
+    app.run_polling(port=PORT)  # Вказуємо порт для запуску
